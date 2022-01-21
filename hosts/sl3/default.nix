@@ -3,6 +3,7 @@
   nixpkgs,
   nixos-hardware,
   lanzaboote,
+  ...
 }: {
   system = "x86_64-linux";
   modules = [

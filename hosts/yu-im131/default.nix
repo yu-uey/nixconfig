@@ -1,10 +1,12 @@
-{ ... }: {
+{ home-manager, ... }: {
   system = "x86_64-linux";
   modules = [
 
     ./hardware-configuration.nix
     ../../modules/nixos/backlight
     ../../modules/nixos/pipewire
+
+    home-manager.nixosModules.home-manager
 
     ({ pkgs, ... }: {
       boot.loader.systemd-boot.enable = true;
@@ -28,6 +30,9 @@
         extraGroups = [ "wheel" ];
         password = "";
       };
+
+      home-manager.useGlobalPkgs = true;
+      home-manager.useUserPackages = true;
 
       system.stateVersion = "21.11";
     })

@@ -6,10 +6,15 @@
       url = github:nix-community/lanzaboote/v1.2.0;
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    home-manager = {
+      url = github:nix-community/home-manager;
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
   outputs = { self, nixpkgs, ... }@inputs:
     let
       defaultModules = [
+
         ({ lib, pkgs, ... }: {
           nix = {
             extraOptions = "experimental-features = nix-command flakes";
