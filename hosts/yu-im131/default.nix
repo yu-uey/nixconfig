@@ -8,6 +8,14 @@
       boot.loader.systemd-boot.enable = true;
       boot.loader.efi.canTouchEfiVariables = true;
 
+      my.device.backlight = {
+        enable = true;
+        buttons = {
+          enable = true;
+          step = 10;
+        };
+      };
+
       networking.useDHCP = false;
       networking.networkmanager.enable = true;
 
