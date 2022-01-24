@@ -5,12 +5,12 @@
     ./hardware-configuration.nix
     ../../modules/nixos/backlight
     ../../modules/nixos/pipewire
+    ../../modules/nixos/grub
 
     home-manager.nixosModules.home-manager
 
     ({ pkgs, ... }: {
-      boot.loader.systemd-boot.enable = true;
-      boot.loader.efi.canTouchEfiVariables = true;
+      my.bootloader.grub.enable = true;
 
       my.device.backlight = {
         enable = true;
