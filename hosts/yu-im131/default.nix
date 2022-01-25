@@ -25,10 +25,8 @@
       networking.useDHCP = false;
       networking.networkmanager.enable = true;
 
-      users.users.yu = {
-        isNormalUser = true;
-        extraGroups = [ "wheel" ];
-        password = "";
+      my.users.yu = {
+        enable = true;
       };
 
       home-manager.useGlobalPkgs = true;
