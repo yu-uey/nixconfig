@@ -16,6 +16,8 @@
         };
       };
 
+      my.pipewire.enable = true;
+
       networking.useDHCP = false;
       networking.networkmanager.enable = true;
 

@@ -12,6 +12,7 @@
   boot.initrd.kernelModules = [ ];
   boot.kernelModules = [ "kvm-intel" "wl" ];
   boot.extraModulePackages = [ config.boot.kernelPackages.broadcom_sta ];
+  boot.extraModprobeConfig = "options snd-hda-intel model=imac27_122";
 
   fileSystems."/" =
     { device = "/dev/disk/by-uuid/ae90687d-3786-419f-a7ba-bce534256682";
