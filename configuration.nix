@@ -2,7 +2,15 @@
 {
   imports = [
     ./hardware-configuration.nix
+    ./modules/nordvpn.nix
   ];
+
+  nixpkgs.config.packageOverrides = pkgs: {
+    nordvpn = pkgs.callPackage ./pkgs/nordvpn.nix { };
+  };
+
+  services.nordvpn.enable = true;
+  networking.firewall.checkReversePath = false;
 
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
@@ -31,6 +39,7 @@
 
   nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [
     "discord"
+    "nordvpn"
   ];
 
   environment.systemPackages = with pkgs; [
@@ -49,7 +58,7 @@
   users.mutableUsers = false;
   users.users.yu = {
     isNormalUser = true;
-    extraGroups = [ "wheel" ];
+    extraGroups = [ "wheel" "nordvpn" ];
     password = "123";
   };
 
