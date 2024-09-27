@@ -16,6 +16,10 @@ with lib; {
     environment.systemPackages = [ pkgs.nordvpn ];
 
     users.groups.nordvpn = {};
+
+    # make /etc/hosts writeable for meshnet
+    environment.etc.hosts.mode = "0644";
+
     systemd = {
       services.nordvpn = {
         description = "NordVPN daemon.";
