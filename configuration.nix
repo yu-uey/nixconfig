@@ -22,6 +22,19 @@
   services.xserver.enable = true;
   services.xserver.displayManager.gdm.enable = true;
   services.xserver.desktopManager.gnome.enable = true;
+  environment.gnome.excludePackages = with pkgs.gnome; [
+    baobab
+    epiphany
+    gnome-calendar
+    gnome-contacts
+    gnome-maps
+    gnome-music
+    gnome-weather
+    pkgs.gnome-connections
+    simple-scan
+    geary
+    seahorse
+  ];
 
   programs.firefox.enable = true;
 
@@ -40,20 +53,40 @@
   nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [
     "discord"
     "nordvpn"
+    "steam"
+    "steam-original"
+    "steam-run"
   ];
 
   environment.systemPackages = with pkgs; [
     git
     vim
-    tmux
     curl
     tree
-    vscodium
-    gnome.gnome-tweaks
     discord
     gimp
     vlc
+    abiword
+    foot
+    zotero
+    imagemagick
+    gnome.dconf-editor
+    gnome.gnome-tweaks
   ];
+
+  programs.steam.enable = true;
+
+  xdg.terminal-exec = {
+    enable = true;
+    settings = {
+      default = [ "org.codeberg.dnkl.foot.desktop" ];
+    };
+  };
+
+  services.emacs = {
+    enable = true;
+    package = pkgs.emacs29-pgtk;
+  };
 
   users.mutableUsers = false;
   users.users.yu = {
