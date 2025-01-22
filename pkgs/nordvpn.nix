@@ -1,17 +1,25 @@
-{ autoPatchelfHook, buildFHSEnvChroot ? false, buildFHSUserEnv ? false, dpkg
-, fetchurl, lib, stdenv, sysctl, iptables, iproute2, procps, cacert, libxml2
-, libidn2, zlib, wireguard-tools }:
+{ autoPatchelfHook
+, buildFHSEnvChroot ? false
+, buildFHSUserEnv ? false
+, fetchurl
+, dpkg
+, lib
+, stdenv
+, sysctl
+, iptables
+, iproute2
+, procps
+, cacert
+, libxml2
+, libidn2
+, zlib
+, libnl
+, libcap_ng
+, wireguard-tools }:
 
 let
   pname = "nordvpn";
-  # version = "3.16.2";
-  version = "3.18.5";
-  LuisChDev = {
-    name = "Luis Chavarriaga";
-    email = "luischa123@gmail.com";
-    github = "LuisChDev";
-    githubId = 24978009;
-  };
+  version = "3.19.2";
   buildEnv = if builtins.typeOf buildFHSEnvChroot == "set" then
     buildFHSEnvChroot
   else
@@ -22,12 +30,16 @@ let
 
     src = fetchurl {
       url =
-        "https://repo.nordvpn.com/deb/nordvpn/debian/pool/main/nordvpn_${version}_amd64.deb";
-      # hash = "sha256-6aAslJ2xwj+khF6HOMtkF0iclrUzhBV64xrHgs5Nc2s=";
-      hash = "sha256-Ap8r1HEwysR9oUbrNRmH4uz4tJXXMoGCb42E+vYNEzY=";
+        "https://repo.nordvpn.com/deb/nordvpn/debian/pool/main/n/nordvpn/nordvpn_${version}_amd64.deb";
+      hash = "sha256-V8SM91Q+DJelrEEipcnwI3BAvput79U13U908u6tjMw=";
     };
 
-    buildInputs = [ libxml2 libidn2 ];
+    buildInputs = [
+      libxml2
+      libidn2
+      libnl
+      libcap_ng
+    ];
     nativeBuildInputs = [ dpkg autoPatchelfHook stdenv.cc.cc.lib ];
 
     dontConfigure = true;
