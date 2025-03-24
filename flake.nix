@@ -1,9 +1,9 @@
 {
   inputs = {
-    nixpkgs.url = github:nixos/nixpkgs/nixos-24.05;
+    nixpkgs.url = github:nixos/nixpkgs/nixos-24.11;
     nixos-hardware.url = github:nixos/nixos-hardware/master;
     lanzaboote = {
-      url = github:nix-community/lanzaboote/v0.4.1;
+      url = github:nix-community/lanzaboote/v0.4.2;
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
