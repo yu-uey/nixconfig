@@ -2,24 +2,7 @@
 {
   imports = [
     ./hardware-configuration.nix
-    ./modules/nordvpn.nix
   ];
-
-  nixpkgs.config.packageOverrides = pkgs: {
-    nordvpn = pkgs.callPackage ./pkgs/nordvpn.nix { };
-    cloudflare-warp = pkgs.callPackage ./cloudflare-warp.nix { };
-  };
-  # nixpkgs.overlays = [
-  #   (final: prev: {
-  #     cloudflare-warp = prev.cloudflare-warp.overrideAttrs (old: {
-  #       version = "2025.5.893.0";
-  #       src = prev.fetchurl {
-  #         url = "https://pkg.cloudflareclient.com/pool/jammy/main/c/cloudflare-warp/cloudflare-warp_2025.5.893.0_amd64.deb";
-  #         hash = "sha256-1uke07OePug7eqjKL+CTRNBJkCm/7F33a4d1H/K9CaM=";
-  #       };
-  #     });
-  #   })
-  # ];
 
   services.nordvpn.enable = true;
   networking.firewall.checkReversePath = false;
@@ -31,31 +14,19 @@
 
   networking.networkmanager.enable = true;
 
-  services.xserver.enable = true;
-  services.xserver.displayManager.gdm.enable = true;
-  services.xserver.desktopManager.gnome.enable = true;
-  environment.gnome.excludePackages = with pkgs.gnome; [
-    baobab
-    epiphany
-    gnome-calendar
-    gnome-contacts
-    gnome-maps
-    gnome-music
-    gnome-weather
-    pkgs.gnome-connections
-    simple-scan
-    geary
-    seahorse
-  ];
+  services.displayManager.gdm.enable = true;
+  services.desktopManager.gnome.enable = true;
+  services.gnome.core-apps.enable = false;
+  services.gnome.core-developer-tools.enable = false;
+  services.gnome.games.enable = false;
 
-  # services.displayManager.sddm.enable = true;
-  # services.displayManager.sddm.wayland.enable = true;
-  # services.desktopManager.plasma6.enable = true;
-
-  programs.firefox.enable = true;
+  programs.firefox = {
+    enable = true;
+  };
 
   i18n.inputMethod = {
-    enabled = "ibus";
+    enable = true;
+    type = "ibus";
     ibus.engines = with pkgs.ibus-engines; [
       rime
       mozc
@@ -68,6 +39,7 @@
 
   nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [
     "discord"
+    "discord-unwrapped"
     "nordvpn"
     "steam"
     "steam-original"
@@ -80,38 +52,28 @@
     vim
     curl
     tree
+    jq
     discord
     gimp
     vlc
     abiword
     foot
-    zotero
+    # zotero # zotero uses an old, insecure firefox
     imagemagick
     ffmpeg
     pandoc
     transmission_4-gtk
-    gnome.gnome-tweaks
-    vscodium
+    gnome-tweaks gnome-text-editor gnome-calculator gnome-characters gnome-console gnome-font-viewer gnome-logs gnome-system-monitor loupe nautilus papers showtime snapshot yelp
     cloudflare-warp
   ];
 
-  # services.cloudflare-warp.enable = true;
-  systemd.packages = [ pkgs.cloudflare-warp ];
-  systemd.services.warp-svc.wantedBy = [ "multi-user.target" ];
+  services.cloudflare-warp.enable = true;
   networking.firewall.allowedUDPPorts = [ 2048 ];
 
-  programs.steam.enable = true;
-
-  xdg.terminal-exec = {
-    enable = true;
-    settings = {
-      default = [ "org.codeberg.dnkl.foot.desktop" ];
-    };
-  };
 
   services.emacs = {
     enable = true;
-    package = pkgs.emacs30-pgtk.pkgs.withPackages (epkgs: [
+    package = pkgs.emacs-pgtk.pkgs.withPackages (epkgs: [
       epkgs.vterm
       (epkgs.treesit-grammars.with-grammars (grammars: with grammars; [
         tree-sitter-nix

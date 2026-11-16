@@ -1,9 +1,9 @@
 {
   inputs = {
-    nixpkgs.url = github:nixos/nixpkgs/nixos-24.11;
+    nixpkgs.url = github:nixos/nixpkgs/nixos-unstable;
     nixos-hardware.url = github:nixos/nixos-hardware/master;
     lanzaboote = {
-      url = github:nix-community/lanzaboote/v0.4.2;
+      url = github:nix-community/lanzaboote/v1.2.0;
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
@@ -19,7 +19,7 @@
           boot.loader.systemd-boot.enable = lib.mkForce false;
           boot.lanzaboote = {
             enable = true;
-	          pkiBundle = /etc/secureboot;
+	          pkiBundle = "/etc/secureboot";
           };
           nix.registry.nixpkgs.flake = nixpkgs;
           system.configurationRevision = nixpkgs.lib.mkIf (self ? rev) self.rev;
