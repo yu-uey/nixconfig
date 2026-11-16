@@ -10,6 +10,11 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
+  my.secureboot = {
+    enable = true;
+    pkiBundle = "/etc/secureboot";
+  };
+
   services.thermald.enable = true;
 
   networking.networkmanager.enable = true;

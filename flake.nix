@@ -14,13 +14,8 @@
         nixos-hardware.nixosModules.microsoft-surface-pro-intel
         lanzaboote.nixosModules.lanzaboote
         ./hosts/sl3/configuration.nix
+        ./modules/secureboot.nix
         ({ lib, pkgs, ... }: {
-          environment.systemPackages = [ pkgs.sbctl ];
-          boot.loader.systemd-boot.enable = lib.mkForce false;
-          boot.lanzaboote = {
-            enable = true;
-	          pkiBundle = "/etc/secureboot";
-          };
           nix.registry.nixpkgs.flake = nixpkgs;
           system.configurationRevision = nixpkgs.lib.mkIf (self ? rev) self.rev;
         })
