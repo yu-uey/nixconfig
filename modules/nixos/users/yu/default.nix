@@ -7,22 +7,27 @@ in
     my.users.yu = {
       enable = lib.mkEnableOption "user yu";
       home = lib.mkOption {
-        type = options.home-manager.users.type.nestedTypes.elemType;
+        type = lib.types.deferredModule;
+        default = {};
       };
     };
   };
-  config = lib.mkIf cfg.enable {
-    users.users.yu = {
-      isNormalUser = true;
-      extraGroups = [ "wheel" ];
-      password = "";
-      shell = pkgs.bashInteractive;
-    };
-    my.users.yu.home = {
-      programs.bash.enable = true;
-      programs.vim.enable = true;
-      home.sessionVariables.EDITOR = "vim";
-    };
-    home-manager.users.yu = lib.mkAliasDefinitions (options.my.users.yu.home);
-  };
+  config = lib.mkIf cfg.enable (lib.mkMerge [
+    {
+      users.users.yu = {
+        isNormalUser = true;
+        extraGroups = [ "wheel" ];
+        password = "";
+        shell = pkgs.bashInteractive;
+      };
+    }
+    (lib.optionalAttrs (options ? home-manager) {
+      home-manager.users.yu = {
+        imports = [ cfg.home ];
+        programs.bash.enable = true;
+        programs.vim.enable = true;
+        home.sessionVariables.EDITOR = "vim";
+      };
+    })
+  ]);
 }

@@ -6,6 +6,7 @@
     ../../modules/nixos/backlight
     ../../modules/nixos/pipewire
     ../../modules/nixos/grub
+    ../../modules/nixos/users/yu
 
     home-manager.nixosModules.home-manager
 
