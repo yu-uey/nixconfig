@@ -7,19 +7,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
-  outputs = { self, nixpkgs, nixos-hardware, lanzaboote }: {
-    nixosConfigurations.sl3 = nixpkgs.lib.nixosSystem {
-      system = "x86_64-linux";
-      modules = [
-        nixos-hardware.nixosModules.microsoft-surface-pro-intel
-        lanzaboote.nixosModules.lanzaboote
-        ./hosts/sl3/configuration.nix
-        ./modules/secureboot.nix
-        ({ lib, pkgs, ... }: {
-          nix.registry.nixpkgs.flake = nixpkgs;
-          system.configurationRevision = nixpkgs.lib.mkIf (self ? rev) self.rev;
-        })
-      ];
-    };
+  outputs = { nixpkgs, ... }@inputs: {
+    nixosConfigurations.sl3 = nixpkgs.lib.nixosSystem (import ./hosts/sl3 inputs );
   };
 }
