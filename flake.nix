@@ -12,8 +12,8 @@
       system = "x86_64-linux";
       modules = [
         nixos-hardware.nixosModules.microsoft-surface-pro-intel
-      	lanzaboote.nixosModules.lanzaboote
-        ./configuration.nix
+        lanzaboote.nixosModules.lanzaboote
+        ./hosts/sl3/configuration.nix
         ({ lib, pkgs, ... }: {
           environment.systemPackages = [ pkgs.sbctl ];
           boot.loader.systemd-boot.enable = lib.mkForce false;
