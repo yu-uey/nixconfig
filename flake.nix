@@ -8,6 +8,9 @@
     };
   };
   outputs = { nixpkgs, ... }@inputs: {
-    nixosConfigurations.sl3 = nixpkgs.lib.nixosSystem (import ./hosts/sl3 inputs );
+    nixosConfigurations = {
+      sl3 = nixpkgs.lib.nixosSystem (import ./hosts/sl3 inputs );
+      im131 = nixpkgs.lib.nixosSystem (import ./hosts/yu-im131 inputs );
+    };
   };
 }

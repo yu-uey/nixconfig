@@ -1,8 +1,10 @@
-{
+{ ... }: {
   system = "x86_64-linux";
   modules = [
 
     ./hardware-configuration.nix
+    ../../modules/nixos/backlight
+    ../../modules/nixos/pipewire
 
     ({ pkgs, ... }: {
       boot.loader.systemd-boot.enable = true;
